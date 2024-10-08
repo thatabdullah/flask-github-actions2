@@ -1,0 +1,21 @@
+name: docker-compose
+
+on:
+     pull_request:
+        branches:
+            - main
+
+
+jobs:
+    dockercompose:
+        runs-on: ubuntu        
+        steps:
+            - name: checkout code
+              uses: actions/checkout@v2
+              
+            - name: test
+              run:
+                docker compose up
+
+
+            
