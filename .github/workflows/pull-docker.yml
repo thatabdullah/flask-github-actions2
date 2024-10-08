@@ -11,11 +11,11 @@ jobs:
         runs-on: ubuntu        
         steps:
             - name: checkout code
-              uses: actions/checkout@v2
+              uses: actions/checkout@v3
               
             - name: test
               run:
-                docker compose up
+                docker compose run test
 
 
             
