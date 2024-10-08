@@ -1,0 +1,30 @@
+name: dockerpush
+
+on:
+    push:
+
+jobs:
+    dockerpush:
+        runs-on: ubuntu-latest
+        steps:
+            - name: checkout code
+             uses: actions/checkout@v4
+            
+            - name: installing Docker
+              uses: actions/setup-buildx-action@v2
+              
+            - name: login to docker hub
+              uses: Docker/login-action@v3
+              with:
+                username: ${{ secrets.DOCKERHUB_USERNAME }} ##secrets are generated through repo's settings in github
+                password: ${{ secrets.DOCKERHUB_PASSWORD }}
+                
+            - name: push & build to docker
+              uses: Docker/build-push-action@v6
+              with:
+                push: true
+                tags: | ##pipeline can be used when you want to type more than one line
+                    ithatabdullah/pushtest:latest #taging the latest helps with caching
+                    ithatabdullah/pushtest:${{ github.sha }} ##it is a best practice to name the version after the commit's sha
+                cache-from:
+                    ithatabdullah/pushtest:latest
